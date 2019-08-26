@@ -17,5 +17,18 @@
         let resultat = `Længden er ${længde} meter og bredden er ${bredde} meter. Arealet er ${areal} kvadratmeter.`
 
         console.log(resultat);
+
+        //Hvis arealet er under 100, skal der stå: Arealet er for lille//
+        if (areal < 100) {
+            console.log("Arealet er for lille.")
+        }
+        //Er arealet mellem 100 og 200, skal der stå: Arealet er ok//
+        else if (areal < 200) {
+            console.log("Arealet er OK.")
+        }
+        //Er det større end (eller lig med)  200, skal der stå: Arealet er for stort//
+        else {
+            console.log("Arealet er for stort.")
+        }
     </script>
 </body></html>
