@@ -29,7 +29,10 @@
     <div class="cirkel"></div>
 
     <script>
-        document.querySelector(".firkant").textContent = "Grøn Firkant"
-        document.querySelector(".cirkel").textContent = "Rød Cirkel"
+        const firkantURL = `http://mabe-kea.dk/E19/pics/frog.png`;
+        const cirkelURL = `http://mabe-kea.dk/E19/pics/pig.png`;
+
+        document.querySelector(".firkant").innerHTML = `<img src = ${firkantURL} alt="frø">`;
+        document.querySelector(".cirkel").innerHTML = `<img src = ${cirkelURL} alt="gris">`;
     </script>
 </body></html>
