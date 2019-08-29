@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <style>
+        .profil-billede {
+            height: 300px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>Person</h1>
+
+    <template>
+        <article>
+            <h2>Navn Hold</h2>
+            <img class="profil-billede">
+        </article>
+    </template>
+
+    <section id="person-liste">
+
+
+    </section>
+
+    <script>
+        const skabelon = document.querySelector("template").content;
+        console.log(skabelon);
+        const listeElm = document.querySelector("#person-liste");
+
+        const array = [{
+
+                navn: "Anne-Sofie",
+                hold: "b",
+                højde: 168,
+                hårfarve: "brun",
+                billede: "https://dyrenesalliance.dk/wp-content/uploads/2019/07/Anne-Sofie_Nielsen-2.jpg",
+            },
+            {
+                navn: "Kamilla",
+                hold: "b",
+                højde: 170,
+                hårfarve: "sølv",
+                billede: "https://kvikea.dk/pix1.jpg",
+            },
+            {
+                navn: "Josefine",
+                hold: "b",
+                højde: 178,
+                hårfarve: "brun",
+                billede: "https://kvikea.dk/pix1.jpg",
+            }
+        ]
+
+        array.forEach(person => {
+            const klon = skabelon.cloneNode(true);
+            console.log(klon);
+
+            const h2 = klon.querySelector("h2");
+            h2.textContent = person.navn;
+            h2.textContent += " Hold " + person.hold;
+
+            const img = klon.querySelector("img");
+            img.src = person.billede;
+            img.alt = "Billede af personen";
+
+            listeElm.appendChild(klon);
+
+        })
+    </script>
+
+</body></html>
