@@ -1,0 +1,20 @@
+[{
+
+    "navn": "Anne-Sofie",
+    "hold": "b",
+    "højde": 168,
+    "hårfarve": "brun",
+    "billede": "https://dyrenesalliance.dk/wp-content/uploads/2019/07/Anne-Sofie_Nielsen-2.jpg"
+}, {
+    "navn": "Kamilla",
+    "hold": "b",
+    "højde": 170,
+    "hårfarve": "sølv",
+    "billede": "https://kvikea.dk/pix1.jpg"
+}, {
+    "navn": "Josefine",
+    "hold": "b",
+    "højde": 178,
+    "hårfarve": "brun",
+    "billede": "https://kvikea.dk/pix1.jpg"
+}]
