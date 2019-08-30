@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Personliste</title>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <section id="liste"></section>
+
+    <h1>Personliste</h1>
+
+    <template>
+        <article class="personer">
+            <h2>Navn</h2>
+            <img src="" alt="billede af person">
+            <a href="link">Link til github:</a>
+        </article>
+    </template>
+
+
+    <script>
+        let personerArray = [];
+
+        document.addEventListener("DOMContentLoaded", start);
+
+        function start() {
+            hentJson();
+            //console.log("start");
+        }
+
+        async function hentJson() {
+            const jsonUrl = "https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json";
+
+            const response = await fetch(jsonUrl);
+            console.log(response);
+
+            personerArray = await response.json();
+            console.log(personerArray);
+            visPersoner();
+        }
+
+        function visPersoner() {
+            const temp = document.querySelector("template").content;
+            const dest = document.querySelector("#liste");
+
+            personerArray.feed.entry.forEach(person => {
+                const klon = temp.cloneNode(true);
+                console.log(klon);
+
+                klon.querySelector("h2").textContent = person.gsx$navn.$t;
+
+                //HUSK apendChild
+            })
+
+        }
+    </script>
+
+</body></html>
