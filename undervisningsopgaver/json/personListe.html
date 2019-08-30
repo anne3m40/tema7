@@ -6,24 +6,55 @@
     <title>Personliste</title>
 
     <style>
+        img {
+            max-width: 80%;
+        }
 
+        section {
+            width: 80vw;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 1rem;
+        }
+
+        .personer {
+            background-color: rgba(40, 141, 109, 0.42);
+            padding: 20px;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-align: center;
+            font-family: sans-serif;
+            color: darkslateblue;
+        }
+
+        @media only screen and (min-width: 900px) {
+
+            section {
+                grid-template-columns: repeat(3, 1fr);
+
+            }
+
+        }
     </style>
 </head>
 
 <body>
+    <h1>Personliste</h1>
 
     <section id="liste"></section>
 
-    <h1>Personliste</h1>
-
     <template>
         <article class="personer">
-            <h2>Navn</h2>
+            <h2></h2>
+            <a href="link"></a>
             <img src="" alt="billede af person">
-            <a href="link">Link til github:</a>
         </article>
     </template>
-
 
     <script>
         let personerArray = [];
@@ -54,9 +85,20 @@
                 const klon = temp.cloneNode(true);
                 console.log(klon);
 
-                klon.querySelector("h2").textContent = person.gsx$navn.$t;
+                const h2 = klon.querySelector("h2");
+                h2.textContent = person.gsx$navn.$t;
 
-                //HUSK apendChild
+                const a = klon.querySelector("a");
+                const gitUrl = `https://github.com/`
+                a.textContent = gitUrl +
+                    person.gsx$github.$t;
+                //Jeg ved godt at linket ikke virker, måske fordi at jeg bruger textContend? Men jeg kunne ikke finde noget på nettet, om hvordan jeg får det til at virke.
+
+                const img = klon.querySelector("img");
+                img.src = person.gsx$billede.$t;
+                img.alt = "Billede af personen";
+
+                liste.appendChild(klon);
             })
 
         }
