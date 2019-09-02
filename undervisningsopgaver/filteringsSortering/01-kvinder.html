@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Personliste</title>
+
+    <style>
+        img {
+            max-width: 80%;
+        }
+
+        section {
+            width: 80vw;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 1rem;
+        }
+
+        .personer {
+            background-color: rgba(40, 141, 109, 0.42);
+            padding: 20px;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-align: center;
+            font-family: sans-serif;
+            color: darkslateblue;
+        }
+
+        @media only screen and (min-width: 900px) {
+
+            section {
+                grid-template-columns: repeat(3, 1fr);
+
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Personliste</h1>
+
+    <section id="liste"></section>
+
+    <template>
+        <article class="personer">
+            <h2></h2>
+            <a href="link"></a>
+            <img src="" alt="billede af person">
+        </article>
+    </template>
+
+    <script>
+        let personerArray = [];
+        let kvinde = "k";
+
+        document.addEventListener("DOMContentLoaded", start);
+
+        function start() {
+            hentJson();
+            //console.log("start");
+        }
+
+        async function hentJson() {
+            const jsonUrl = "https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json";
+
+            const response = await fetch(jsonUrl);
+            console.log(response);
+
+            personerArray = await response.json();
+            console.log(personerArray);
+
+            visPersoner();
+        }
+
+        function visPersoner() {
+            const temp = document.querySelector("template").content;
+            const dest = document.querySelector("#liste");
+
+            personerArray.feed.entry.forEach(person => {
+
+                //vis tingene if/hvis det er kvinder - eller vis intet.
+                if (person.gsx$køn.$t == kvinde) {
+                    const klon = temp.cloneNode(true);
+                    //console.log(klon);
+
+                    const h2 = klon.querySelector("h2");
+                    h2.textContent = person.gsx$navn.$t;
+
+                    const a = klon.querySelector("a");
+                    const gitUrl = `https://github.com/`
+                    a.textContent = gitUrl +
+                        person.gsx$github.$t;
+
+                    const img = klon.querySelector("img");
+                    img.src = person.gsx$billede.$t;
+                    img.alt = "Billede af personen";
+
+                    liste.appendChild(klon);
+                }
+
+
+            })
+
+        }
+
+    </script>
+
+</body>
+
+</html>
