@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bistro Babushka</title>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Menu</h1>
+
+    <section id="liste"></section>
+
+    <template>
+        <article class="retter">
+            <img src="" alt="">
+            <h2></h2>
+            <p class="kortBeskrivelse"></p>
+            <p class="pris"></p>
+        </article>
+    </template>
+
+    <script>
+        let madArray = [];
+
+        document.addEventListener("DOMContentLoaded", start);
+
+        function start() {
+            hentJson();
+        }
+
+        async function hentJson() {
+            const jsonUrl = "https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json";
+            const response = await fetch(jsonUrl);
+
+            madArray = await response.json();
+            console.log(madArray);
+            visMad();
+        }
+
+        function visMad() {
+            const temp = document.querySelector("template").content;
+            const dest = document.querySelector("#liste").content;
+
+            madArray.feed.entry.forEach(ret => {
+                const klon = temp.cloneNode(true);
+                console.log(klon);
+
+                const img = klon.querySelector("img");
+                img.src = ret.gsx$billede.$t;
+                img.alt = "Billede af retten"
+
+                klon.querySelector("h2").textContent = ret.gsx$navn.$t;
+
+                klon.querySelector(".kortBeskrivelse").textContent = ret.gsx$kort.$t;
+
+                liste.appendChild(klon);
+            })
+        }
+
+    </script>
+
+</body>
+
+</html>
