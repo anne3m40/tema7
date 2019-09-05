@@ -5,34 +5,131 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bistro Babushka</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Shrikhand&display=swap" rel="stylesheet">
 
     <style>
+        header,
+        footer {
+            background-color: #524B4A;
+            padding: 20px;
+        }
 
+        footer {
+            margin-top: 20px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        section {
+            width: 80vw;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 1rem;
+        }
+
+        button {
+            background-color: rgba(240, 248, 255, 0);
+            border-style: hidden;
+        }
+
+        .retter {
+            padding: 10px;
+            background-color: rgba(170, 176, 182);
+
+        }
+
+        #splash h1 {
+            position: absolute;
+            top: 10vw;
+        }
+
+        h1 {
+            font-family: 'Shrikhand', cursive;
+            font-size: 10vw;
+        }
+
+        h2 {
+            color: #524B4A;
+            font-size: 3rem;
+            text-align: center;
+        }
+
+        h3 {
+            color: #9f0815;
+        }
+
+        h2,
+        h3,
+        p {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        footer p {
+            font-size: 0.8rem;
+        }
+
+        @media only screen and (min-width: 900px) {
+            section {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
     </style>
 </head>
 
 <body>
+    <header>
+        <section id="#splash">
+            <h1>Bistro Barbuskha</h1>
+        </section>
+        <nav>
+            <button class="filter valgt" data-kategori="alle">Alle</button>
+            <button class="filter" data-kategori="forretter">Forretter</button>
+            <button class="filter" data-kategori="hovedretter">Hovedretter</button>
+            <button class="filter" data-kategori="desserter">Desserter</button>
+            <button class="filter" data-kategori="drikkevarer">Drikkevarer</button>
+        </nav>
+    </header>
 
-    <h1>Menu</h1>
+
+    <h2>Menu</h2>
 
     <section id="liste"></section>
 
     <template>
         <article class="retter">
             <img src="" alt="">
-            <h2></h2>
+            <h3></h3>
             <p class="kortBeskrivelse"></p>
             <p class="pris"></p>
         </article>
     </template>
 
+    <footer>
+        <p>Tema 7 - Barbushka opgave - Anne-Sofie Nielsen - KEA 2019</p>
+    </footer>
+
     <script>
         let madArray = [];
+        let filter = "alle";
 
         document.addEventListener("DOMContentLoaded", start);
 
         function start() {
             hentJson();
+
+            const filterKnapper = document.querySelectorAll("button");
+            filterKnapper.forEach(knap => knap.addEventListener("click", filtrerMad));
+        }
+
+        function filtrerMad() {
+            filter = this.dataset.kategori;
+            document.querySelector(".valgt").classList.remove("valgt");
+            this.classList.add("valgt");
+
+            visMad()
         }
 
         async function hentJson() {
@@ -41,31 +138,35 @@
 
             madArray = await response.json();
             console.log(madArray);
+
             visMad();
         }
 
         function visMad() {
             const temp = document.querySelector("template").content;
-            const dest = document.querySelector("#liste").content;
+            const dest = document.querySelector("#liste");
+
+            dest.textContent = "";
 
             madArray.feed.entry.forEach(ret => {
-                const klon = temp.cloneNode(true);
-                console.log(klon);
 
-                const img = klon.querySelector("img");
-                img.src = ret.gsx$billede.$t;
-                img.alt = "Billede af retten"
+                if (ret.gsx$kategori.$t == filter || filter == "alle") {
 
-                klon.querySelector("h2").textContent = ret.gsx$navn.$t;
+                    const klon = temp.cloneNode(true);
+                    //console.log(klon);
 
-                klon.querySelector(".kortBeskrivelse").textContent = ret.gsx$kort.$t;
+                    const img = klon.querySelector("img");
+                    img.src = "imgs/small/" + ret.gsx$billede.$t + "-sm.jpg"; //Hvordan var det man gjorde??
+                    img.alt = "Billede af retten"
 
-                liste.appendChild(klon);
+                    klon.querySelector("h3").textContent = ret.gsx$navn.$t;
+
+                    klon.querySelector(".kortBeskrivelse").textContent = ret.gsx$kort.$t;
+
+                    liste.appendChild(klon);
+                }
             })
         }
-
     </script>
 
-</body>
-
-</html>
+</body></html>
