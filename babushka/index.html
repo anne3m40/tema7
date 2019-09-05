@@ -18,11 +18,17 @@
             margin-top: 20px;
         }
 
+        header {
+            background-image: url(imgs/large/borsjtj.jpg);
+
+
+        }
+
         img {
             max-width: 100%;
         }
 
-        section {
+        #liste {
             width: 80vw;
             margin: auto;
             display: grid;
@@ -30,9 +36,41 @@
             grid-gap: 1rem;
         }
 
+        #detalje {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(170, 176, 182);
+            overflow: scroll;
+        }
+
+        #detalje .luk {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 2rem;
+        }
+
+        #detalje .ret {
+            width: 60vw;
+            margin: auto;
+            margin-top: 20px;
+            min-height: 50vh;
+            padding: 4rem;
+            background: white;
+        }
+
         button {
             background-color: rgba(240, 248, 255, 0);
             border-style: hidden;
+            color: white;
+            cursor: pointer;
+        }
+
+        .valgt {
+            font-weight: bold;
         }
 
         .retter {
@@ -41,24 +79,21 @@
 
         }
 
-        #splash h1 {
-            position: absolute;
-            top: 10vw;
-        }
-
         h1 {
             font-family: 'Shrikhand', cursive;
             font-size: 10vw;
+            color: #9f0815;
+            text-shadow: 0.5vw 0.5vw rgba(13, 13, 13, 0.77);
         }
 
         h2 {
-            color: #524B4A;
+            color: #0D0D0D;
             font-size: 3rem;
             text-align: center;
         }
 
         h3 {
-            color: #9f0815;
+            color: #0D0D0D;
         }
 
         h2,
@@ -72,8 +107,12 @@
         }
 
         @media only screen and (min-width: 900px) {
-            section {
+            #liste {
                 grid-template-columns: repeat(3, 1fr);
+            }
+
+            h1 {
+                margin-left: 5vw;
             }
         }
     </style>
@@ -81,9 +120,7 @@
 
 <body>
     <header>
-        <section id="#splash">
-            <h1>Bistro Barbuskha</h1>
-        </section>
+        <h1>★Bistro Barbuskha</h1>
         <nav>
             <button class="filter valgt" data-kategori="alle">Alle</button>
             <button class="filter" data-kategori="forretter">Forretter</button>
@@ -97,6 +134,17 @@
     <h2>Menu</h2>
 
     <section id="liste"></section>
+
+    <section id="detalje">
+        <article class="ret">
+            <button class="luk">X</button>
+            <img src="" alt="">
+            <h2></h2>
+            <p class="langBeskrivelse"></p>
+            <p class="oprindelse"></p>
+            <h3 class="pris"></h3>
+        </article>
+    </section>
 
     <template>
         <article class="retter">
@@ -122,6 +170,8 @@
 
             const filterKnapper = document.querySelectorAll("button");
             filterKnapper.forEach(knap => knap.addEventListener("click", filtrerMad));
+
+            document.querySelector("#detalje").style.display = "none";
         }
 
         function filtrerMad() {
@@ -164,8 +214,33 @@
                     klon.querySelector(".kortBeskrivelse").textContent = ret.gsx$kort.$t;
 
                     liste.appendChild(klon);
+
+                    dest.lastElementChild.addEventListener("click", () => {
+                        visDetalje(ret)
+                    });
                 }
-            })
+            });
+        }
+
+        function visDetalje(ret) {
+            document.querySelector("#detalje").style.display = "block";
+
+            document.querySelector("#detalje .luk").addEventListener("click", skjulDetalje);
+
+            document.querySelector("#detalje img").src = "imgs/large/" + ret.gsx$billede.$t + ".jpg";
+            document.querySelector("#detalje img").alt = "Billede af retten";
+            document.querySelector("#detalje h2").textContent = ret.gsx$navn.$t;
+            document.querySelector("#detalje .oprindelse").textContent = "Oprindelse: " + ret.gsx$oprindelse.$t;
+            document.querySelector("#detalje .langBeskrivelse").textContent = ret.gsx$lang.$t;
+            document.querySelector("#detalje h3").textContent = "pris " + ret.gsx$pris.$t + ",-";
+
+        }
+
+        function skjulDetalje() {
+            document.querySelector("#detalje").style.display = "none";
+
+            visMad();
+
         }
     </script>
 
